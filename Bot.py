@@ -1,5 +1,5 @@
 from aiogram import Bot, Dispatcher, F
-from aiogram.filters import Command
+from aiogram.filters import Command, CommandStart
 from aiogram.types import Message
 from dotenv import load_dotenv
 import os
@@ -10,6 +10,11 @@ BOT_TOKEN = os.getenv("BOT_TOKEN")
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 
+@dp.message(CommandStart())
+async def send_user_id(message: Message) -> None:
+    user_id = message.from_user.id
+    print("ID пользователя:", user_id)
+    await message.answer(f"Ваш Telegram ID: {user_id}")
 
 @dp.message(Command("start"))
 async def start(message: Message):
